@@ -1153,7 +1153,7 @@ section {
         line-height: 1.6;
     }
 
-    /* Services Carousel for Mobile - Simple Grid Layout */
+    /* Services Section for Mobile - Maintain Design, Adjust Layout */
     .services-carousel {
         overflow: visible;
         position: relative;
@@ -1168,23 +1168,31 @@ section {
         padding: 0;
     }
 
+    .service-card, .about-card, .education-card {
+        padding: 1.5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
     .service-card {
         width: 100%;
         margin: 0;
-        padding: 1.5rem;
-        text-align: center;
-        min-height: auto;
-        z-index: 1;
-        transform-style: flat;
-        perspective: none;
-        position: relative;
-        border-radius: 15px;
+        padding: 1.2rem;
+        border-radius: 12px;
+        /* Maintain glassmorphism design */
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        text-align: center;
+        min-height: auto;
+        z-index: 1;
+        /* Disable 3D effects on mobile for better performance */
+        transform-style: flat;
+        perspective: none;
+        position: relative;
+        transition: all 0.3s ease;
     }
 
     .service-card:hover {
@@ -1196,8 +1204,16 @@ section {
     .service-icon {
         width: 60px;
         height: 60px;
-        font-size: 1.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: #fff;
+        transition: all 0.3s ease;
+        /* Disable 3D transform on mobile */
         transform: none;
     }
 
@@ -1207,23 +1223,23 @@ section {
     }
 
     .service-card h3 {
-        font-size: 1.3rem;
-        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+        margin-bottom: 0.6rem;
         color: #fff;
         font-weight: 600;
     }
 
     .service-card p {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        margin-bottom: 1.2rem;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
         color: rgba(255, 255, 255, 0.8);
     }
 
     .book-button {
-        padding: 0.7rem 1.3rem;
-        font-size: 0.85rem;
-        margin-top: 0.8rem;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        margin-top: 0.6rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
