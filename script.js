@@ -343,6 +343,7 @@ let startPos = 0;
 let currentTranslate = 0;
 let prevTranslate = 0;
 let animationID = 0;
+let isMobile = false;
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -351,10 +352,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!servicesGrid) return;
     
+    // Check if mobile
+    isMobile = window.innerWidth <= 768;
+    
     // Touch events for mobile
-    servicesGrid.addEventListener('touchstart', touchStart);
-    servicesGrid.addEventListener('touchmove', touchMove);
-    servicesGrid.addEventListener('touchend', touchEnd);
+    servicesGrid.addEventListener('touchstart', touchStart, { passive: false });
+    servicesGrid.addEventListener('touchmove', touchMove, { passive: false });
+    servicesGrid.addEventListener('touchend', touchEnd, { passive: false });
     
     // Mouse events for desktop testing
     servicesGrid.addEventListener('mousedown', touchStart);
@@ -372,16 +376,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Auto-play carousel (optional)
-    setInterval(() => {
-        if (window.innerWidth <= 768) {
+    // Auto-play carousel (only on mobile)
+    if (isMobile) {
+        setInterval(() => {
             nextSlide();
+        }, 5000);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        isMobile = window.innerWidth <= 768;
+        if (!isMobile) {
+            // Reset to first slide when switching to desktop
+            goToSlide(0);
         }
-    }, 5000);
+    });
 });
 
 function touchStart(event) {
-    if (window.innerWidth > 768) return; // Only on mobile
+    if (!isMobile) return; // Only on mobile
     
     const servicesGrid = document.querySelector('.services-grid');
     if (!servicesGrid) return;
@@ -390,30 +403,33 @@ function touchStart(event) {
     startPos = getPositionX(event);
     animationID = requestAnimationFrame(animation);
     servicesGrid.style.cursor = 'grabbing';
+    servicesGrid.style.transition = 'none';
 }
 
 function touchMove(event) {
-    if (window.innerWidth > 768) return; // Only on mobile
+    if (!isMobile) return; // Only on mobile
     
     if (isDragging) {
+        event.preventDefault(); // Prevent scrolling
         const currentPosition = getPositionX(event);
         currentTranslate = prevTranslate + currentPosition - startPos;
     }
 }
 
 function touchEnd() {
-    if (window.innerWidth > 768) return; // Only on mobile
+    if (!isMobile) return; // Only on mobile
     
     const servicesGrid = document.querySelector('.services-grid');
     if (!servicesGrid) return;
     
     isDragging = false;
     cancelAnimationFrame(animationID);
+    servicesGrid.style.transition = 'transform 0.3s ease';
     
     const movedBy = currentTranslate - prevTranslate;
     
     // Determine if slide should move
-    if (Math.abs(movedBy) > 100) {
+    if (Math.abs(movedBy) > 50) { // Reduced threshold for better responsiveness
         if (movedBy < 0) {
             nextSlide();
         } else {
