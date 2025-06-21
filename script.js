@@ -336,190 +336,37 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// Services Carousel Functionality - Desktop Only
-let currentSlide = 0;
-let isDragging = false;
-let startPos = 0;
-let currentTranslate = 0;
-let prevTranslate = 0;
-let animationID = 0;
-let isMobile = false;
-
-// Initialize carousel when DOM is loaded
+// Services Layout - Simple Grid/Vertical Layout (No Swipe)
 document.addEventListener('DOMContentLoaded', () => {
     const servicesGrid = document.querySelector('.services-grid');
     const dots = document.querySelectorAll('.dot');
     
     if (!servicesGrid) return;
     
-    // Check if mobile
-    isMobile = window.innerWidth <= 768;
-    
-    // Only initialize carousel on desktop
-    if (!isMobile) {
-        // Touch events for mobile (only for desktop testing)
-        servicesGrid.addEventListener('touchstart', touchStart, { passive: false });
-        servicesGrid.addEventListener('touchmove', touchMove, { passive: false });
-        servicesGrid.addEventListener('touchend', touchEnd, { passive: false });
-        
-        // Mouse events for desktop
-        servicesGrid.addEventListener('mousedown', touchStart);
-        servicesGrid.addEventListener('mousemove', touchMove);
-        servicesGrid.addEventListener('mouseup', touchEnd);
-        servicesGrid.addEventListener('mouseleave', touchEnd);
-        
-        // Prevent context menu on right click
-        servicesGrid.addEventListener('contextmenu', e => e.preventDefault());
-        
-        // Dot navigation
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                goToSlide(index);
-            });
-        });
-        
-        // Auto-play carousel (desktop only)
-        setInterval(() => {
-            nextSlide();
-        }, 5000);
-    } else {
-        // On mobile, show all service cards vertically
-        servicesGrid.style.display = 'flex';
-        servicesGrid.style.flexDirection = 'column';
-        servicesGrid.style.gap = '2rem';
-        servicesGrid.style.transform = 'none';
-        servicesGrid.style.width = '100%';
-        
-        // Hide dots on mobile
-        const carouselDots = document.querySelector('.carousel-dots');
-        if (carouselDots) {
-            carouselDots.style.display = 'none';
-        }
-    }
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        const wasMobile = isMobile;
-        isMobile = window.innerWidth <= 768;
-        
-        if (wasMobile !== isMobile) {
-            // Reload page on resize to properly switch between mobile/desktop
-            location.reload();
-        }
-    });
-});
-
-function touchStart(event) {
-    if (isMobile) return; // Disabled on mobile
-    
-    const servicesGrid = document.querySelector('.services-grid');
-    if (!servicesGrid) return;
-    
-    isDragging = true;
-    startPos = getPositionX(event);
-    animationID = requestAnimationFrame(animation);
-    servicesGrid.style.cursor = 'grabbing';
+    // Always use simple layout (no carousel)
+    servicesGrid.style.display = 'grid';
+    servicesGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+    servicesGrid.style.gap = '2rem';
+    servicesGrid.style.transform = 'none';
+    servicesGrid.style.width = '100%';
     servicesGrid.style.transition = 'none';
-}
-
-function touchMove(event) {
-    if (isMobile) return; // Disabled on mobile
     
-    if (isDragging) {
-        event.preventDefault();
-        const currentPosition = getPositionX(event);
-        currentTranslate = prevTranslate + currentPosition - startPos;
-    }
-}
-
-function touchEnd() {
-    if (isMobile) return; // Disabled on mobile
-    
-    const servicesGrid = document.querySelector('.services-grid');
-    if (!servicesGrid) return;
-    
-    isDragging = false;
-    cancelAnimationFrame(animationID);
-    servicesGrid.style.transition = 'transform 0.3s ease';
-    
-    const movedBy = currentTranslate - prevTranslate;
-    
-    if (Math.abs(movedBy) > 50) {
-        if (movedBy < 0) {
-            nextSlide();
-        } else {
-            prevSlide();
-        }
-    } else {
-        goToSlide(currentSlide);
+    // Hide dots since we're not using carousel
+    const carouselDots = document.querySelector('.carousel-dots');
+    if (carouselDots) {
+        carouselDots.style.display = 'none';
     }
     
-    servicesGrid.style.cursor = 'grab';
-}
-
-function getPositionX(event) {
-    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-}
-
-function animation() {
-    setSliderPosition();
-    if (isDragging) requestAnimationFrame(animation);
-}
-
-function setSliderPosition() {
-    const servicesGrid = document.querySelector('.services-grid');
-    if (servicesGrid && !isMobile) {
-        servicesGrid.style.transform = `translateX(${currentTranslate}px)`;
-    }
-}
-
-function nextSlide() {
-    if (isMobile) return; // Disabled on mobile
-    
-    if (currentSlide < 2) {
-        currentSlide++;
-    } else {
-        currentSlide = 0;
-    }
-    goToSlide(currentSlide);
-}
-
-function prevSlide() {
-    if (isMobile) return; // Disabled on mobile
-    
-    if (currentSlide > 0) {
-        currentSlide--;
-    } else {
-        currentSlide = 2;
-    }
-    goToSlide(currentSlide);
-}
-
-function goToSlide(slideIndex) {
-    if (isMobile) return; // Disabled on mobile
-    
-    const servicesGrid = document.querySelector('.services-grid');
-    const dots = document.querySelectorAll('.dot');
-    
-    if (!servicesGrid) return;
-    
-    currentSlide = slideIndex;
-    const slideWidth = servicesGrid.offsetWidth;
-    currentTranslate = -(slideWidth * slideIndex);
-    prevTranslate = currentTranslate;
-    
-    setSliderPosition();
-    updateDots();
-}
-
-function updateDots() {
-    if (isMobile) return; // Disabled on mobile
-    
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-    });
-}
+    // Remove any existing event listeners
+    servicesGrid.removeEventListener('touchstart', touchStart);
+    servicesGrid.removeEventListener('touchmove', touchMove);
+    servicesGrid.removeEventListener('touchend', touchEnd);
+    servicesGrid.removeEventListener('mousedown', touchStart);
+    servicesGrid.removeEventListener('mousemove', touchMove);
+    servicesGrid.removeEventListener('mouseup', touchEnd);
+    servicesGrid.removeEventListener('mouseleave', touchEnd);
+    servicesGrid.removeEventListener('contextmenu', e => e.preventDefault());
+});
 
 // Booking Modal Functions
 function openBookingModal(serviceName) {
