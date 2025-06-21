@@ -336,7 +336,7 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// Services Carousel Functionality
+// Services Carousel Functionality - Desktop Only
 let currentSlide = 0;
 let isDragging = false;
 let startPos = 0;
@@ -355,46 +355,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if mobile
     isMobile = window.innerWidth <= 768;
     
-    // Touch events for mobile
-    servicesGrid.addEventListener('touchstart', touchStart, { passive: false });
-    servicesGrid.addEventListener('touchmove', touchMove, { passive: false });
-    servicesGrid.addEventListener('touchend', touchEnd, { passive: false });
-    
-    // Mouse events for desktop testing
-    servicesGrid.addEventListener('mousedown', touchStart);
-    servicesGrid.addEventListener('mousemove', touchMove);
-    servicesGrid.addEventListener('mouseup', touchEnd);
-    servicesGrid.addEventListener('mouseleave', touchEnd);
-    
-    // Prevent context menu on right click
-    servicesGrid.addEventListener('contextmenu', e => e.preventDefault());
-    
-    // Dot navigation
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index);
+    // Only initialize carousel on desktop
+    if (!isMobile) {
+        // Touch events for mobile (only for desktop testing)
+        servicesGrid.addEventListener('touchstart', touchStart, { passive: false });
+        servicesGrid.addEventListener('touchmove', touchMove, { passive: false });
+        servicesGrid.addEventListener('touchend', touchEnd, { passive: false });
+        
+        // Mouse events for desktop
+        servicesGrid.addEventListener('mousedown', touchStart);
+        servicesGrid.addEventListener('mousemove', touchMove);
+        servicesGrid.addEventListener('mouseup', touchEnd);
+        servicesGrid.addEventListener('mouseleave', touchEnd);
+        
+        // Prevent context menu on right click
+        servicesGrid.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
         });
-    });
-    
-    // Auto-play carousel (only on mobile)
-    if (isMobile) {
+        
+        // Auto-play carousel (desktop only)
         setInterval(() => {
             nextSlide();
         }, 5000);
+    } else {
+        // On mobile, show all service cards vertically
+        servicesGrid.style.display = 'flex';
+        servicesGrid.style.flexDirection = 'column';
+        servicesGrid.style.gap = '2rem';
+        servicesGrid.style.transform = 'none';
+        servicesGrid.style.width = '100%';
+        
+        // Hide dots on mobile
+        const carouselDots = document.querySelector('.carousel-dots');
+        if (carouselDots) {
+            carouselDots.style.display = 'none';
+        }
     }
     
     // Handle window resize
     window.addEventListener('resize', () => {
+        const wasMobile = isMobile;
         isMobile = window.innerWidth <= 768;
-        if (!isMobile) {
-            // Reset to first slide when switching to desktop
-            goToSlide(0);
+        
+        if (wasMobile !== isMobile) {
+            // Reload page on resize to properly switch between mobile/desktop
+            location.reload();
         }
     });
 });
 
 function touchStart(event) {
-    if (!isMobile) return; // Only on mobile
+    if (isMobile) return; // Disabled on mobile
     
     const servicesGrid = document.querySelector('.services-grid');
     if (!servicesGrid) return;
@@ -407,17 +423,17 @@ function touchStart(event) {
 }
 
 function touchMove(event) {
-    if (!isMobile) return; // Only on mobile
+    if (isMobile) return; // Disabled on mobile
     
     if (isDragging) {
-        event.preventDefault(); // Prevent scrolling
+        event.preventDefault();
         const currentPosition = getPositionX(event);
         currentTranslate = prevTranslate + currentPosition - startPos;
     }
 }
 
 function touchEnd() {
-    if (!isMobile) return; // Only on mobile
+    if (isMobile) return; // Disabled on mobile
     
     const servicesGrid = document.querySelector('.services-grid');
     if (!servicesGrid) return;
@@ -428,8 +444,7 @@ function touchEnd() {
     
     const movedBy = currentTranslate - prevTranslate;
     
-    // Determine if slide should move
-    if (Math.abs(movedBy) > 50) { // Reduced threshold for better responsiveness
+    if (Math.abs(movedBy) > 50) {
         if (movedBy < 0) {
             nextSlide();
         } else {
@@ -453,12 +468,14 @@ function animation() {
 
 function setSliderPosition() {
     const servicesGrid = document.querySelector('.services-grid');
-    if (servicesGrid) {
+    if (servicesGrid && !isMobile) {
         servicesGrid.style.transform = `translateX(${currentTranslate}px)`;
     }
 }
 
 function nextSlide() {
+    if (isMobile) return; // Disabled on mobile
+    
     if (currentSlide < 2) {
         currentSlide++;
     } else {
@@ -468,6 +485,8 @@ function nextSlide() {
 }
 
 function prevSlide() {
+    if (isMobile) return; // Disabled on mobile
+    
     if (currentSlide > 0) {
         currentSlide--;
     } else {
@@ -477,6 +496,8 @@ function prevSlide() {
 }
 
 function goToSlide(slideIndex) {
+    if (isMobile) return; // Disabled on mobile
+    
     const servicesGrid = document.querySelector('.services-grid');
     const dots = document.querySelectorAll('.dot');
     
@@ -492,6 +513,8 @@ function goToSlide(slideIndex) {
 }
 
 function updateDots() {
+    if (isMobile) return; // Disabled on mobile
+    
     const dots = document.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);

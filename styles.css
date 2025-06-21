@@ -1082,15 +1082,17 @@ section {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         width: 100%;
         text-align: center;
         transition: 0.3s;
         padding: 2rem 0;
         z-index: 9999;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        min-height: calc(100vh - 70px);
     }
 
     .nav-menu.active {
@@ -1098,22 +1100,27 @@ section {
     }
 
     .nav-menu li {
-        margin: 1rem 0;
+        margin: 1.5rem 0;
     }
 
     .nav-menu li a {
         color: #fff;
-        font-weight: 500;
-        padding: 1rem 2rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 1.2rem 2rem;
         display: block;
         transition: all 0.3s ease;
-        border-radius: 10px;
-        margin: 0 1rem;
+        border-radius: 15px;
+        margin: 0 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .nav-menu li a:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.2);
         color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
     .hero-content {
@@ -1162,90 +1169,61 @@ section {
         line-height: 1.6;
     }
 
-    /* Services Carousel for Mobile */
+    /* Services Carousel for Mobile - Simplified Layout */
     .services-carousel {
         overflow: hidden;
         position: relative;
     }
 
     .services-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-        transform: translateX(0);
-        width: 300%;
         display: flex;
-        transition: transform 0.3s ease;
-        cursor: grab;
-        position: relative;
-    }
-
-    .services-grid:active {
-        cursor: grabbing;
+        flex-direction: column;
+        gap: 2rem;
+        transform: none;
+        width: 100%;
+        transition: none;
     }
 
     .service-card {
-        min-width: calc(100% / 3);
-        margin: 0 1rem;
+        width: 100%;
+        margin: 0;
         padding: 2rem 1.5rem;
         text-align: center;
-        flex-shrink: 0;
-        min-height: 350px;
-        z-index: 1000;
-        transform-style: preserve-3d;
-        perspective: 1000px;
+        min-height: auto;
+        z-index: 1;
+        transform-style: flat;
+        perspective: none;
         position: relative;
     }
 
     .service-card:hover {
-        z-index: 9999;
+        z-index: 10;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     }
 
     .service-card h3 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         margin-bottom: 1rem;
     }
 
     .service-card p {
-        font-size: 0.9rem;
-        line-height: 1.5;
+        font-size: 1rem;
+        line-height: 1.6;
         margin-bottom: 1.5rem;
     }
 
     .book-button {
-        padding: 0.7rem 1.3rem;
-        font-size: 0.85rem;
-        margin-top: auto;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
     }
 
+    /* Hide carousel dots on mobile since we're using vertical layout */
     .carousel-dots {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 2rem;
+        display: none;
     }
 
-    .dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-
-    .dot:hover {
-        background: rgba(255, 255, 255, 0.5);
-        transform: scale(1.1);
-    }
-
-    .dot.active {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        transform: scale(1.2);
-        border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Modal Mobile Styles */
     .modal-content {
         margin: 10% auto;
         width: 95%;
