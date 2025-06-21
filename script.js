@@ -334,4 +334,299 @@ function showNotification(message, type) {
             }
         }, 300);
     }, 5000);
-} 
+}
+
+// Services Carousel Functionality
+let currentSlide = 0;
+let isDragging = false;
+let startPos = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let animationID = 0;
+
+// Initialize carousel when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const servicesGrid = document.querySelector('.services-grid');
+    const dots = document.querySelectorAll('.dot');
+    
+    if (!servicesGrid) return;
+    
+    // Touch events for mobile
+    servicesGrid.addEventListener('touchstart', touchStart);
+    servicesGrid.addEventListener('touchmove', touchMove);
+    servicesGrid.addEventListener('touchend', touchEnd);
+    
+    // Mouse events for desktop testing
+    servicesGrid.addEventListener('mousedown', touchStart);
+    servicesGrid.addEventListener('mousemove', touchMove);
+    servicesGrid.addEventListener('mouseup', touchEnd);
+    servicesGrid.addEventListener('mouseleave', touchEnd);
+    
+    // Prevent context menu on right click
+    servicesGrid.addEventListener('contextmenu', e => e.preventDefault());
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+    
+    // Auto-play carousel (optional)
+    setInterval(() => {
+        if (window.innerWidth <= 768) {
+            nextSlide();
+        }
+    }, 5000);
+});
+
+function touchStart(event) {
+    if (window.innerWidth > 768) return; // Only on mobile
+    
+    const servicesGrid = document.querySelector('.services-grid');
+    if (!servicesGrid) return;
+    
+    isDragging = true;
+    startPos = getPositionX(event);
+    animationID = requestAnimationFrame(animation);
+    servicesGrid.style.cursor = 'grabbing';
+}
+
+function touchMove(event) {
+    if (window.innerWidth > 768) return; // Only on mobile
+    
+    if (isDragging) {
+        const currentPosition = getPositionX(event);
+        currentTranslate = prevTranslate + currentPosition - startPos;
+    }
+}
+
+function touchEnd() {
+    if (window.innerWidth > 768) return; // Only on mobile
+    
+    const servicesGrid = document.querySelector('.services-grid');
+    if (!servicesGrid) return;
+    
+    isDragging = false;
+    cancelAnimationFrame(animationID);
+    
+    const movedBy = currentTranslate - prevTranslate;
+    
+    // Determine if slide should move
+    if (Math.abs(movedBy) > 100) {
+        if (movedBy < 0) {
+            nextSlide();
+        } else {
+            prevSlide();
+        }
+    } else {
+        goToSlide(currentSlide);
+    }
+    
+    servicesGrid.style.cursor = 'grab';
+}
+
+function getPositionX(event) {
+    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+}
+
+function animation() {
+    setSliderPosition();
+    if (isDragging) requestAnimationFrame(animation);
+}
+
+function setSliderPosition() {
+    const servicesGrid = document.querySelector('.services-grid');
+    if (servicesGrid) {
+        servicesGrid.style.transform = `translateX(${currentTranslate}px)`;
+    }
+}
+
+function nextSlide() {
+    if (currentSlide < 2) {
+        currentSlide++;
+    } else {
+        currentSlide = 0;
+    }
+    goToSlide(currentSlide);
+}
+
+function prevSlide() {
+    if (currentSlide > 0) {
+        currentSlide--;
+    } else {
+        currentSlide = 2;
+    }
+    goToSlide(currentSlide);
+}
+
+function goToSlide(slideIndex) {
+    const servicesGrid = document.querySelector('.services-grid');
+    const dots = document.querySelectorAll('.dot');
+    
+    if (!servicesGrid) return;
+    
+    currentSlide = slideIndex;
+    const slideWidth = servicesGrid.offsetWidth;
+    currentTranslate = -(slideWidth * slideIndex);
+    prevTranslate = currentTranslate;
+    
+    setSliderPosition();
+    updateDots();
+}
+
+function updateDots() {
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+    });
+}
+
+// Booking Modal Functions
+function openBookingModal(serviceName) {
+    const modal = document.getElementById('bookingModal');
+    const serviceNameSpan = document.getElementById('serviceName');
+    
+    if (modal && serviceNameSpan) {
+        serviceNameSpan.textContent = serviceName;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        // Auto-fill subject with service name
+        const subjectInput = document.getElementById('booking-subject');
+        if (subjectInput) {
+            subjectInput.value = `Booking: ${serviceName}`;
+        }
+        
+        // Focus on first input
+        const firstInput = document.getElementById('booking-name');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 300);
+        }
+    }
+}
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+        
+        // Reset form
+        const form = document.querySelector('.booking-form');
+        if (form) {
+            form.reset();
+        }
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('bookingModal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeBookingModal();
+            }
+        });
+    }
+    
+    // Handle booking form submission
+    const bookingForm = document.querySelector('.booking-form');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('booking-name').value;
+            const emailPhone = document.getElementById('booking-email-phone').value;
+            const subject = document.getElementById('booking-subject').value;
+            const message = document.getElementById('booking-message').value;
+            
+            // Validate form
+            if (!name || !emailPhone || !subject || !message) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Prepare template parameters
+            const templateParams = {
+                from_name: name,
+                from_email: emailPhone,
+                subject: subject,
+                message: message
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('service_nzze2b8', 'template_ixvungi', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showNotification('Booking request sent successfully!', 'success');
+                    closeBookingModal();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    showNotification('Failed to send booking request. Please try again.', 'error');
+                })
+                .finally(function() {
+                    // Reset button state
+                    submitBtn.innerHTML = originalContent;
+                    submitBtn.disabled = false;
+                });
+        });
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeBookingModal();
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// Gyro/Tilt Effect for Service Cards
+document.addEventListener('DOMContentLoaded', () => {
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    serviceCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            // Ensure very high z-index during interaction
+            card.style.zIndex = '9999';
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            // Reset z-index after animation completes
+            setTimeout(() => {
+                card.style.zIndex = '1000';
+            }, 500);
+        });
+        
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'transform 0.1s ease';
+            card.style.zIndex = '9999';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transition = 'transform 0.5s ease';
+        });
+    });
+}); 
