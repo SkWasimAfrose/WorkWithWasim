@@ -1171,52 +1171,55 @@ section {
 
     /* Services Carousel for Mobile - Simplified Layout */
     .services-carousel {
-        overflow: hidden;
+        overflow: visible;
         position: relative;
+        padding: 0 1rem;
     }
 
     .services-grid {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
         transform: none;
         width: 100%;
         transition: none;
+        padding: 0;
     }
 
     .service-card {
         width: 100%;
         margin: 0;
-        padding: 2rem 1.5rem;
+        padding: 1.5rem;
         text-align: center;
         min-height: auto;
         z-index: 1;
         transform-style: flat;
         perspective: none;
         position: relative;
+        border-radius: 15px;
     }
 
     .service-card:hover {
         z-index: 10;
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .service-card h3 {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
     }
 
     .service-card p {
-        font-size: 1rem;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1.2rem;
     }
 
     .book-button {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-        margin-top: 1rem;
+        padding: 0.7rem 1.3rem;
+        font-size: 0.85rem;
+        margin-top: 0.8rem;
     }
 
     /* Hide carousel dots on mobile since we're using vertical layout */
@@ -1439,9 +1442,27 @@ section {
     }
 
     .service-card {
-        min-width: calc(100% / 3);
-        margin: 0 0.5rem;
-        padding: 1.5rem 1rem;
+        width: 100%;
+        margin: 0;
+        padding: 1.2rem;
+        border-radius: 12px;
+    }
+
+    .service-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .service-card p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+    }
+
+    .book-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        margin-top: 0.6rem;
     }
 
     .about-card p {
@@ -1516,6 +1537,15 @@ section {
 
     .container {
         padding: 0 10px;
+    }
+
+    /* Services specific mobile fixes */
+    .services-carousel {
+        padding: 0 0.5rem;
+    }
+
+    .services-grid {
+        gap: 1rem;
     }
 }
 
