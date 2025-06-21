@@ -554,46 +554,101 @@ section {
 
 .services-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
     width: 100%;
     padding: 0;
 }
 
 .service-card {
-    width: 100%;
-    margin: 0;
-    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
     text-align: center;
-    min-height: auto;
-    z-index: 1;
-    transform-style: flat;
-    perspective: none;
+    transition: all 0.3s ease;
     position: relative;
-    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+    z-index: 1000;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .service-card:hover {
-    z-index: 10;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.service-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: #fff;
+    transition: all 0.3s ease;
+    transform: translateZ(20px);
+}
+
+.service-card:hover .service-icon {
+    transform: translateZ(30px) scale(1.1);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 }
 
 .service-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fff;
 }
 
 .service-card p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
 }
 
+/* Book Button */
 .book-button {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.85rem;
-    margin-top: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    margin-top: auto;
+}
+
+.book-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+}
+
+.book-button i {
+    transition: transform 0.3s ease;
+}
+
+.book-button:hover i {
+    transform: translateX(3px);
 }
 
 /* Modal Styles */
@@ -1098,7 +1153,7 @@ section {
         line-height: 1.6;
     }
 
-    /* Services Carousel for Mobile - Simplified Layout */
+    /* Services Carousel for Mobile - Simple Grid Layout */
     .services-carousel {
         overflow: visible;
         position: relative;
@@ -1106,12 +1161,10 @@ section {
     }
 
     .services-grid {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 1.5rem;
-        transform: none;
         width: 100%;
-        transition: none;
         padding: 0;
     }
 
@@ -1126,6 +1179,12 @@ section {
         perspective: none;
         position: relative;
         border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .service-card:hover {
@@ -1134,21 +1193,63 @@ section {
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
+    .service-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin: 0 auto 1rem;
+        transform: none;
+    }
+
+    .service-card:hover .service-icon {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
     .service-card h3 {
         font-size: 1.3rem;
         margin-bottom: 0.8rem;
+        color: #fff;
+        font-weight: 600;
     }
 
     .service-card p {
         font-size: 0.9rem;
         line-height: 1.5;
         margin-bottom: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
     }
 
     .book-button {
         padding: 0.7rem 1.3rem;
         font-size: 0.85rem;
         margin-top: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 25px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .book-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, #5a6fd8, #6a4190);
+    }
+
+    .book-button i {
+        transition: transform 0.3s ease;
+    }
+
+    .book-button:hover i {
+        transform: translateX(3px);
     }
 
     /* Hide carousel dots on mobile since we're using vertical layout */
