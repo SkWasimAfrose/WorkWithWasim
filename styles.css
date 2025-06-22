@@ -1910,4 +1910,74 @@ section {
 
 .floating-whatsapp {
     animation: whatsappPulse 2s ease-in-out infinite;
+}
+
+/* --- COMPLETELY HIDE FLOATING BUTTON ON ALL MOBILE/TABLET SIZES --- */
+@media (max-width: 1024px) {
+    .floating-whatsapp {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .floating-whatsapp {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-whatsapp {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+    
+    .mobile-whatsapp {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        margin: 2.5rem auto 0 auto !important;
+        max-width: 300px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-whatsapp {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .floating-whatsapp {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
 } 

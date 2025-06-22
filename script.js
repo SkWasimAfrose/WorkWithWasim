@@ -535,10 +535,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 function initFloatingWhatsApp() {
     console.log('initFloatingWhatsApp called');
     
-    // Check if device is mobile
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-        console.log('Mobile device detected, skipping floating button initialization');
+    // Check if device is mobile/tablet - hide on anything <= 1024px
+    const isMobileOrTablet = window.innerWidth <= 1024;
+    if (isMobileOrTablet) {
+        console.log('Mobile/Tablet device detected, completely hiding floating button');
+        const floatingBtn = document.getElementById('floatingWhatsApp');
+        if (floatingBtn) {
+            floatingBtn.style.display = 'none';
+            floatingBtn.style.visibility = 'hidden';
+            floatingBtn.style.opacity = '0';
+            floatingBtn.style.pointerEvents = 'none';
+            floatingBtn.style.position = 'absolute';
+            floatingBtn.style.left = '-9999px';
+            floatingBtn.style.top = '-9999px';
+        }
         return;
     }
     
@@ -550,18 +560,18 @@ function initFloatingWhatsApp() {
         return;
     }
 
-    console.log('Floating button found, making it visible...');
+    console.log('Desktop detected, making floating button visible on right side...');
     
-    // Make sure the button is visible
+    // Make sure the button is visible on desktop
     floatingBtn.style.display = 'flex';
     floatingBtn.style.visibility = 'visible';
     floatingBtn.style.opacity = '1';
-    floatingBtn.style.left = '30px';
+    floatingBtn.style.right = '30px';
     floatingBtn.style.top = '120px';
     floatingBtn.style.position = 'fixed';
     floatingBtn.style.zIndex = '9999';
     
-    console.log('Button should be visible now at:', floatingBtn.style.left, floatingBtn.style.top);
+    console.log('Button should be visible now on the right side');
     
     // Simple click test
     floatingBtn.addEventListener('click', function() {
