@@ -560,18 +560,18 @@ function initFloatingWhatsApp() {
         return;
     }
 
-    console.log('Desktop detected, making floating button visible on right side...');
+    console.log('Desktop detected, making floating button visible on bottom right corner...');
     
     // Make sure the button is visible on desktop
     floatingBtn.style.display = 'flex';
     floatingBtn.style.visibility = 'visible';
     floatingBtn.style.opacity = '1';
     floatingBtn.style.right = '30px';
-    floatingBtn.style.top = '120px';
+    floatingBtn.style.bottom = '30px';
     floatingBtn.style.position = 'fixed';
     floatingBtn.style.zIndex = '9999';
     
-    console.log('Button should be visible now on the right side');
+    console.log('Button should be visible now on the bottom right corner');
     
     // Simple click test
     floatingBtn.addEventListener('click', function() {

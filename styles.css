@@ -1725,14 +1725,14 @@ section {
     background: linear-gradient(135deg, #5a6fd8, #6a4190);
 }
 
-/* Floating WhatsApp Button */
+/* --- DESKTOP FLOATING WHATSAPP BUTTON (ONLY FOR DESKTOP) --- */
 .floating-whatsapp {
     position: fixed !important;
     z-index: 9999 !important;
     width: 80px !important;
     height: 80px !important;
     right: 30px !important;
-    top: 120px !important;
+    bottom: 30px !important;
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(25px) !important;
     border: 2px solid rgba(255, 255, 255, 0.25) !important;
