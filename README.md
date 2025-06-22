@@ -29,7 +29,7 @@ A modern, responsive portfolio website showcasing UI/UX design work and services
 
 ## 🚀 Live Demo
 
-Visit the live portfolio: [Your GitHub Pages URL]
+Visit the live portfolio: https://workwithwasim.netlify.app/
 
 ## 📧 Contact
 
