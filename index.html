@@ -105,7 +105,6 @@
                     <p>
                         Clients trust me for my attention to detail, clear communication, and ability to turn ideas into polished digital experiences.                       
                         Need a reliable designer-developer for your next project?
-                        Let's connect!
                     </p>
                     <button class="connect-button" onclick="scrollToSection('contact')">
                         <span>Let's Connect!</span>
@@ -175,7 +174,8 @@
                         <h3>UI/UX Design</h3>
                         <p>Wireframes, Prototypes, User Flows</p>
                         <button class="book-button" onclick="openBookingModal('UI/UX Design')">
-                            <span>Book</span>
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Book Now</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -186,7 +186,8 @@
                         <h3>Web Design</h3>
                         <p>Modern, responsive web pages</p>
                         <button class="book-button" onclick="openBookingModal('Web Design')">
-                            <span>Book</span>
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Book Now</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -197,7 +198,8 @@
                         <h3>Graphic Design</h3>
                         <p>Posters, Banners, Social Media, Branding</p>
                         <button class="book-button" onclick="openBookingModal('Graphic Design')">
-                            <span>Book</span>
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Book Now</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -293,6 +295,14 @@
                     </form>
                 </div>
             </div>
+            
+            <!-- Mobile WhatsApp Button -->
+            <div class="mobile-whatsapp">
+                <a href="https://wa.me/918101389536?text=Hi%20Wasim!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Chat on WhatsApp</span>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -303,11 +313,19 @@
         </div>
     </footer>
 
+    <!-- Floating WhatsApp Button -->
+    <div id="floatingWhatsApp" class="floating-whatsapp">
+        <a href="https://wa.me/918101389536?text=Hi%20Wasim!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-tooltip">Chat on WhatsApp</span>
+        </a>
+    </div>
+
     <!-- Booking Modal -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Book <span id="serviceName">Service</span></h3>
+                <h3>Book Now: <span id="serviceName">Service</span></h3>
                 <button class="close-modal" onclick="closeBookingModal()">
                     <i class="fas fa-times"></i>
                 </button>

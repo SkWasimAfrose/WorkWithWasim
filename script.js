@@ -515,4 +515,74 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transition = 'transform 0.5s ease';
         });
     });
+});
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Floating WhatsApp Button Movement
+function initFloatingWhatsApp() {
+    console.log('initFloatingWhatsApp called');
+    
+    // Check if device is mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        console.log('Mobile device detected, skipping floating button initialization');
+        return;
+    }
+    
+    const floatingBtn = document.getElementById('floatingWhatsApp');
+    console.log('Floating button element:', floatingBtn);
+    
+    if (!floatingBtn) {
+        console.error('Floating WhatsApp button not found!');
+        return;
+    }
+
+    console.log('Floating button found, making it visible...');
+    
+    // Make sure the button is visible
+    floatingBtn.style.display = 'flex';
+    floatingBtn.style.visibility = 'visible';
+    floatingBtn.style.opacity = '1';
+    floatingBtn.style.left = '30px';
+    floatingBtn.style.top = '120px';
+    floatingBtn.style.position = 'fixed';
+    floatingBtn.style.zIndex = '9999';
+    
+    console.log('Button should be visible now at:', floatingBtn.style.left, floatingBtn.style.top);
+    
+    // Simple click test
+    floatingBtn.addEventListener('click', function() {
+        console.log('WhatsApp button clicked!');
+    });
+}
+
+// Initialize floating WhatsApp when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing floating WhatsApp...');
+    initFloatingWhatsApp();
+    
+    // Also try initializing after a short delay
+    setTimeout(() => {
+        console.log('Delayed initialization...');
+        initFloatingWhatsApp();
+    }, 1000);
+});
+
+// Also try initializing on window load
+window.addEventListener('load', function() {
+    console.log('Window loaded, initializing floating WhatsApp...');
+    initFloatingWhatsApp();
 }); 
